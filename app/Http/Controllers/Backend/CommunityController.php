@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommunityController\StoreRequest;
+use App\Models\Community;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CommunityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('OK');
     }
 
     /**
@@ -20,15 +25,17 @@ class CommunityController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Communities/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        //
+        Community::create($request->validated() + ['user_id' => auth()->id()]);
+
+        return to_route('communities.index');
     }
 
     /**

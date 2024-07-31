@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'unique:communities'],
+            'slug' => ['required', 'unique:communities'],
+            'description' => ['required', 'min:5', 'max:255']
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'コミュニティ名',
+            'slug' => '別名',
+            'description' => 'コミュニティの概要'
         ];
     }
 }
